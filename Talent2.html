@@ -11,8 +11,7 @@ body{margin:0;background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,
 button,input,select,textarea{font:inherit}
 button{cursor:pointer;border:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 input[type="date"]{-webkit-appearance:textfield;appearance:textfield}
-input[type="number"]{-moz-appearance:textfield;-webkit-appearance:textfield;appearance:textfield}
-input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{opacity:1;-webkit-appearance:inner-spin-button;appearance:inner-spin-button;height:32px;width:20px}
+input[type="number"]{-moz-appearance:textfield;-webkit-appearance:none;appearance:none;text-align:center}
 .app{display:grid;grid-template-columns:252px 1fr;min-height:100vh;min-height:100dvh}
 aside{padding:25px 16px;background:#123a32;color:#eef7f2;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:-.3px;padding:0 9px 6px}
@@ -90,10 +89,13 @@ main{max-width:1500px;width:100%;margin:0 auto;padding:30px 42px 55px}
 .score-summary small{display:block;font-size:10px;color:#527261;text-transform:uppercase;letter-spacing:.7px;font-weight:800}
 .score-summary b{font-size:22px;letter-spacing:-1px}
 .score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 26px}
-.score-row{display:grid;grid-template-columns:1fr 60px;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid #eff2ef}
+.score-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid #eff2ef}
 .score-row label{font-size:12px;line-height:1.2}
-.score-input{width:60px!important;text-align:center;padding:6px!important;font-weight:800;font-size:16px!important;-webkit-appearance:textfield;appearance:textfield}
-.score-input::-webkit-inner-spin-button,.score-input::-webkit-outer-spin-button{opacity:1;-webkit-appearance:inner-spin-button;appearance:inner-spin-button;height:32px;width:20px;cursor:pointer}
+.score-stepper{display:flex;align-items:center;gap:0}
+.stepper-btn{width:34px;height:34px;border-radius:8px;background:#e8f0eb;color:#26473c;font-size:18px;font-weight:800;display:grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;border:0;cursor:pointer;flex-shrink:0;line-height:1}
+.stepper-btn:hover{background:#d0e4d8}
+.stepper-btn:active{background:#b8d4c0}
+.score-input{width:44px!important;text-align:center;padding:6px!important;font-weight:800;font-size:16px!important;border:1px solid var(--line);border-radius:6px;background:white;-webkit-appearance:none;appearance:none;-moz-appearance:textfield}
 .recommend{display:flex;gap:8px;flex-wrap:wrap}
 .recommend label{border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:12px;cursor:pointer;touch-action:manipulation}
 .recommend input{accent-color:var(--brand)}
@@ -386,6 +388,13 @@ editing=cloneObj(found);
 renderScorecard(editing);
 show('scorecard');
 }
+function stepScore(i,delta){
+var el=document.getElementById('score'+i);
+if(!el)return;
+var val=Math.max(0,Math.min(10,(Number(el.value)||0)+delta));
+el.value=val;
+updateSummary();
+}
 function renderScorecard(p){
 var validScores=p.scores.filter(function(v){return Number(v)>0});
 var maximum=validScores.length*10;
@@ -420,7 +429,11 @@ html+='<div class="score-grid">';
 for(var i=0;i<attrs.length;i++){
 html+='<div class="score-row">';
 html+='<label for="score'+i+'">'+(i+1)+'. '+attrs[i]+'</label>';
+html+='<div class="score-stepper">';
+html+='<button type="button" class="stepper-btn" onclick="stepScore('+i+',-1)">−</button>';
 html+='<input id="score'+i+'" class="score-input" name="score'+i+'" type="number" min="0" max="10" value="'+p.scores[i]+'" oninput="updateSummary()" />';
+html+='<button type="button" class="stepper-btn" onclick="stepScore('+i+',1)">+</button>';
+html+='</div>';
 html+='</div>';
 }
 html+='</div></div></div>';
