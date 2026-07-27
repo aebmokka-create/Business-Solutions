@@ -11,8 +11,8 @@ body{margin:0;background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,
 button,input,select,textarea{font:inherit}
 button{cursor:pointer;border:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 input[type="date"]{-webkit-appearance:textfield;appearance:textfield}
-input[type="number"]{-moz-appearance:textfield}
-input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{opacity:1}
+input[type="number"]{-moz-appearance:textfield;-webkit-appearance:textfield;appearance:textfield}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{opacity:1;-webkit-appearance:inner-spin-button;appearance:inner-spin-button;height:32px;width:20px}
 .app{display:grid;grid-template-columns:252px 1fr;min-height:100vh;min-height:100dvh}
 aside{padding:25px 16px;background:#123a32;color:#eef7f2;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:-.3px;padding:0 9px 6px}
@@ -92,7 +92,8 @@ main{max-width:1500px;width:100%;margin:0 auto;padding:30px 42px 55px}
 .score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 26px}
 .score-row{display:grid;grid-template-columns:1fr 60px;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid #eff2ef}
 .score-row label{font-size:12px;line-height:1.2}
-.score-input{width:60px!important;text-align:center;padding:6px!important;font-weight:800;font-size:16px!important}
+.score-input{width:60px!important;text-align:center;padding:6px!important;font-weight:800;font-size:16px!important;-webkit-appearance:textfield;appearance:textfield}
+.score-input::-webkit-inner-spin-button,.score-input::-webkit-outer-spin-button{opacity:1;-webkit-appearance:inner-spin-button;appearance:inner-spin-button;height:32px;width:20px;cursor:pointer}
 .recommend{display:flex;gap:8px;flex-wrap:wrap}
 .recommend label{border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:12px;cursor:pointer;touch-action:manipulation}
 .recommend input{accent-color:var(--brand)}
@@ -394,7 +395,7 @@ var html='<form onsubmit="savePerson(event)">';
 html+='<div class="panel"><div class="panel-head"><h2>Profile details</h2>';
 html+='<span class="tag">'+(currentProject?esc(currentProject):'No project selected')+'</span></div>';
 html+='<div class="panel-body"><div class="form-layout">';
-html+='<div class="field"><label>Full name *</label><input required name="name" value="'+esc(p.name)+'" placeholder="e.g. Jordan Lee" /></div>';
+html+='<div class="field"><label>Full name *</label><input required name="name" value="'+esc(p.name)+'" /></div>';
 html+='<div class="field"><label>Talent type</label><select name="type">';
 html+='<option value=""'+((!p.type)?' selected':'')+'>Select type</option>';
 html+='<option'+(p.type==='Current talent'?' selected':'')+'>Current talent</option>';
